@@ -127,6 +127,55 @@ See `.env.local.example` for all required environment variables.
 - Resend API key
 - Daily.co API key
 
+## 🚀 Deployment
+
+### Cloudflare Pages (Recommended)
+
+This project is configured for deployment on **Cloudflare Pages**.
+
+#### Quick Deploy via GitHub
+
+1. **Push to GitHub** (✅ Already done!)
+   ```bash
+   git push origin main
+   ```
+
+2. **Connect to Cloudflare Pages**
+   - Go to [Cloudflare Dashboard](https://dash.cloudflare.com)
+   - Click "Workers & Pages" → "Create Application" → "Pages"
+   - Connect your GitHub repository: `lewisgithinji/board.africa`
+
+3. **Configure Build Settings**
+   ```
+   Build command:    npm run pages:build
+   Build directory:  .vercel/output/static
+   Root directory:   board-africa
+   Node version:     18
+   ```
+
+4. **Add Environment Variables**
+   - Copy variables from `.env.production.example`
+   - Add them in Cloudflare Pages settings
+   - See `CLOUDFLARE_DEPLOYMENT.md` for full list
+
+5. **Deploy!**
+   - Click "Save and Deploy"
+   - Your site will be live at `https://board-africa.pages.dev`
+
+#### Important Notes
+
+- ⚠️ **Windows Users**: Local builds may fail due to Windows compatibility. Use GitHub deployment instead (works perfectly)
+- ✅ **GitHub Actions**: Automated CI/CD is configured in `.github/workflows/deploy.yml`
+- ✅ **Auto Deploy**: Every push to `main` triggers automatic deployment
+
+#### Deployment Documentation
+
+- 📖 [Complete Deployment Guide](./CLOUDFLARE_DEPLOYMENT.md) - Step-by-step instructions
+- 📖 [Deployment Options](./DEPLOYMENT_OPTIONS.md) - Comparison of deployment methods
+- 📖 [Windows Build Note](./WINDOWS_BUILD_NOTE.md) - Important for Windows users
+- 📖 [Environment Variables](../.env.production.example) - Required variables for production
+
+
 ## 📚 Documentation
 
 - [Enhanced MVP Roadmap](../docs/ENHANCED_MVP_ROADMAP.md) - 10-12 week development plan

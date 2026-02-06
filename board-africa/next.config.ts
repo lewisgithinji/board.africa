@@ -2,6 +2,9 @@ import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   images: {
+    // Cloudflare doesn't support Next.js Image Optimization
+    // Use Cloudflare Images or unoptimized images
+    unoptimized: true,
     domains: [
       'imagedelivery.net',
       'pub-*.r2.dev',
@@ -24,6 +27,34 @@ const nextConfig: NextConfig = {
     },
   },
   transpilePackages: ['react-pdf', 'pdfjs-dist'],
+  
+  // Security headers
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin',
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=()',
+          },
+        ],
+      },
+    ]
+  },
+
   webpack: (config, { isServer }) => {
     // Canvas polyfill (not needed in browser)
     config.resolve.alias.canvas = false;
@@ -50,6 +81,14 @@ const nextConfig: NextConfig = {
         path: false,
         crypto: false,
       };
+    }
+
+    // Cloudflare Workers compatibility
+    if (isServer) {
+      config.externals.push({
+        bufferutil: 'bufferutil',
+        'utf-8-validate': 'utf-8-validate',
+      })
     }
 
     return config;
